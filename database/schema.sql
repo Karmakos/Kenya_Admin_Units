@@ -1,14 +1,15 @@
 --Create Database 
-CREATE DATABASE 2019_Census
+CREATE DATABASE kenya_admin_units
+
 --Country table
-CREATE TABLE country (
+CREATE TABLE country IF NOT EXISTS (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     country_name VARCHAR (50) NOT NULL,
     country_code VARCHAR (20) NOT NULL UNIQUE
 )
 
 --County table
-CREATE TABLE county (
+CREATE TABLE county IF NOT EXISTS  (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     country_id INT NOT NULL,
     county_name VARCHAR (50) NOT NULL,
@@ -22,7 +23,7 @@ CREATE TABLE county (
 )
 
 --sub county table
-CREATE TABLE sub_county(
+CREATE TABLE sub_county IF NOT EXISTS (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     county_id INT NOT NULL,
     sub_county_name VARCHAR(50) NOT NULL,
@@ -34,7 +35,7 @@ CREATE TABLE sub_county(
 
 )
 
-CREATE TABLE division(
+CREATE TABLE division IF NOT EXISTS (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     sub_county_id INT NOT NULL,
     division_name VARCHAR(50) NOT NULL,
@@ -43,17 +44,13 @@ CREATE TABLE division(
         FOREIGN KEY (sub_county_id) 
         REFERENCES sub_county(id)
 
+    CONSTRAINT uq_division_id_sub_county_name
+        UNIQUE (sub_county_id, division_name);
+
 );
 
---ALTERS
-ALTER TABLE division
-ADD CONSTRAINT uq_division_id_sub_county_name
-UNIQUE (sub_county_id, division_name);
-ALTER TABLE
-
-
 --Location table
-CREATE TABLE location (
+CREATE TABLE location IF NOT EXISTS (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     division_id INT NOT NULL,
     location_name VARCHAR(50),
@@ -66,13 +63,8 @@ CREATE TABLE location (
         UNIQUE (division_id, location_name);
 )
 
---ADD CONSTRAINTS
-ALTER TABLE location 
-ADD 
-
-
 -- sublocation table
-CREATE TABLE sub_location (
+CREATE TABLE sub_location IF NOT EXISTS (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     location_id INT NOT NULL,
     sub_location_type_id INT NOT NULL,
@@ -92,7 +84,7 @@ CREATE TABLE sub_location (
 )
 
 -- sub location types
-CREATE TABLE special_sub_location (
+CREATE TABLE special_sub_location IF NOT EXISTS (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     reason CHAR(50),
@@ -102,7 +94,7 @@ CREATE TABLE special_sub_location (
 
 -- urban centres
 
-CREATE TABLE urban_centre (
+CREATE TABLE urban_centre IF NOT EXISTS (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     county_id INT NOT NULL,
     urban_centre_name VARCHAR(50),

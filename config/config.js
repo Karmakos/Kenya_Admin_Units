@@ -2,9 +2,19 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const { DATABASE_NAME, DATABASE_PORT, READER_USERNAME, READER_PASSWORD, WRITER_USERNAME, WRITER_PASSWORD } = process.env;
+const {
+    PORT,
+    DATABASE_NAME,
+    DATABASE_PORT,
+    READER_USERNAME,
+    READER_PASSWORD,
+    WRITER_USERNAME,
+    WRITER_PASSWORD } = process.env;
 
 const config = {
+    api: {
+        port: PORT
+    },
     db: {
         name: DATABASE_NAME,
         port: DATABASE_PORT,

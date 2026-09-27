@@ -1,4 +1,4 @@
-import { writer, reader } from "../config/pool.js"
+import { writer, reader } from "../database/pool.js"
 
 async function testWriterPoolConnection() {
     try {
