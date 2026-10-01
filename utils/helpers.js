@@ -9,6 +9,8 @@ export function writeError(error) {
     });
 }
 
+
+//sanitize number input
 export function sanitizeNumberInput(input) {
     const sanitizedNumber = input
         .toString()
@@ -19,6 +21,8 @@ export function sanitizeNumberInput(input) {
     return sanitizedNumber
 }
 
+
+//sanitize string input
 export function sanitizeStringInput(input) {
     const sanitizedString = input
         .toString()
@@ -30,7 +34,7 @@ export function sanitizeStringInput(input) {
     return sanitizedString
 }
 
-
+// Extend the Error class to create a custom APIError class
 export class APIError extends Error {
     constructor(message, { success, status, code } = {}) {
         super(message)
@@ -44,3 +48,4 @@ export class APIError extends Error {
 
     }
 }
+

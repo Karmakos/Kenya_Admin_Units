@@ -59,3 +59,7 @@ PostgreSQL
 ## Notes
 
 This project is currently focused on the administrative hierarchy and public read access. More security and deployment details should be confirmed before production rollout.
+
+## TO DO: Handle both abbrevations
+
+Alpha-2: A two-letter code (like KE for Kenya or FR for France).Alpha-3: A three-letter code (like KEN for Kenya or USA for the United States)

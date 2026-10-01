@@ -1,0 +1,25 @@
+import * as helper from "./helpers.js";
+
+// Function to validate query parameters
+export function missingQueryParameters(req, requiredParams) {
+    const missingParams = requiredParams.filter(param => !req.query[param]);
+    if (missingParams.length > 0) {
+        throw new helper.APIError(`Missing required parameters: ${missingParams.join(", ")}`, {
+            success: false,
+            status: 400,
+            code: "MISSING_REQUIRED_PARAMETERS",
+        });
+    }
+}
+
+
+// Function to handle resource not found errors
+export function resourceNotFoundError(resourceName) {
+    const message = `The ${resourceName} you requested was not found. Please check the resource name and try again.`;
+    throw new APIError(message, {
+        success: false,
+        status: 404,
+        code: `${resourceName.toUpperCase()}_NOT_FOUND`
+    });
+}
+

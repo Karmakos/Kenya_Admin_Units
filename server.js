@@ -3,12 +3,13 @@ import express from 'express'
 import { fileURLToPath } from "url";
 import config from "./config/config.js";
 
-import { router as countries } from "./controllers/countries.js";
-import { router as counties } from "./controllers/counties.js";
-import { router as subCounties } from "./controllers/sub-counties.js";
-import { router as divisions } from "./controllers/divisions.js";
-import { router as locations } from "./controllers/locations.js";
-import { router as subLocation } from "./controllers/sub-locations.js";
+import { router as countries } from "./routes/countries.js";
+import { router as counties } from "./routes/counties.js";
+import { router as subCounties } from "./routes/sub-counties.js";
+import { router as divisions } from "./routes/divisions.js";
+import { router as locations } from "./routes/locations.js";
+import { router as subLocation } from "./routes/sub-locations.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 
 
@@ -27,12 +28,15 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 
 
 //add country routes
-app.use('/countries', countries);
-app.use('/counties', counties);
-app.use('/sub-counties', subCounties)
-app.use('/divisions', divisions)
-app.use('/locations', locations)
-app.use('/sub-location', subLocation)
+app.use('/api/v1/countries', countries);
+app.use('/api/v1/counties', counties);
+app.use('/api/v1/sub-counties', subCounties)
+app.use('/api/v1/divisions', divisions)
+app.use('/api/v1/locations', locations)
+app.use('/api/v1/sub-location', subLocation)
+
+//Error handling middleware
+app.use(errorHandler);
 
 
 
