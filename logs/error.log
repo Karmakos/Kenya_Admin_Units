@@ -1,0 +1,14 @@
+ReferenceError: countriesRes is not defined 
+ReferenceError: countriesRes is not defined 
+
+There was an error getting all countries TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting all countries TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting all countries TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting all countries TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting all countries TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting the country by code Error: The country call code you provided is invalid. Please enter a valid numeric code.
+There was an error getting the country by code TypeError: Class constructor APIError cannot be invoked without 'new'
+There was an error getting the country by code TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting the country by code TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting the country by code TypeError: Invalid status code: undefined. Status code must be an integer.
+There was an error getting the country by code TypeError: Invalid status code: undefined. Status code must be an integer.
