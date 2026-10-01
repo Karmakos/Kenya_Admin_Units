@@ -53,7 +53,7 @@ export async function findByName(name) {
         [`%${name}%`]
     );
 
-    return result.rows[0] ?? null;
+    return result.rows ?? null;
 
 }
 

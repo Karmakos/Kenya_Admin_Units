@@ -16,7 +16,7 @@ export function missingQueryParameters(req, requiredParams) {
 // Function to handle resource not found errors
 export function resourceNotFoundError(resourceName) {
     const message = `The ${resourceName} you requested was not found. Please check the resource name and try again.`;
-    throw new APIError(message, {
+    throw new helper.APIError(message, {
         success: false,
         status: 404,
         code: `${resourceName.toUpperCase()}_NOT_FOUND`
