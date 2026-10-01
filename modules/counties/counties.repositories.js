@@ -37,7 +37,7 @@ export async function findByCountyCode(countryName, countyCode) {
         [countyCode, `%${countryName}%`]
     );
 
-    return result.rows[0] ?? null;
+    return result.rows ?? null;
 
 }
 
@@ -53,6 +53,6 @@ export async function findByName(countryName, countyName) {
         [`%${countryName}%`, `%${countyName}%`]
     );
 
-    return result.rows[0] ?? null;
+    return result.rows ?? null;
 
 }

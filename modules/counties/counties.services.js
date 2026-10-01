@@ -1,7 +1,8 @@
 // Handles the countries processing logic.
 import * as countyRepository from "./counties.repositories.js";
-import * as countryRepository from "../countries/countries.repositories.js";
-import { APIError } from "../../utils/helpers.js";
+import * as validator from "./helpers.js";
+import * as raiseError from "../../utils/errorHandlers.js";
+
 
 export async function getAllCounties(payload) {
 
@@ -14,13 +15,7 @@ export async function getAllCounties(payload) {
 
     if (!counties?.length) {
         console.warn("No counties found")
-
-        throw new APIError("We couldn't find counties within the country.", {
-            success: false,
-            status: 404,
-            code: "COUNTY_NOT_FOUND",
-        })
-
+        raiseError.resourceNotFoundError("County")
     }
 
     const totalPages = Math.ceil(totalCounties / limit);
@@ -46,14 +41,9 @@ export async function getCountyByCode(countryName, countyCode) {
 
     console.log("county", county)
 
-    if (!county) {
+    if (!county?.length) {
         console.warn("No counties found")
-
-        throw new APIError("The county was not found.", {
-            success: false,
-            status: 404,
-            code: "COUNTY_NOT_FOUND",
-        })
+        raiseError.resourceNotFoundError("County")
     }
 
     return ({
@@ -68,15 +58,9 @@ export async function getCountyByName(countryName, countyName) {
 
     const county = await countyRepository.findByName(countryName, countyName)
 
-    if (!county) {
+    if (!county?.length) {
         console.warn("No counties found")
-
-        throw new APIError("The county was not found.", {
-            success: false,
-            status: 404,
-            code: "COUNTY_NOT_FOUND",
-        })
-
+        raiseError.resourceNotFoundError("County")
     }
 
     return ({

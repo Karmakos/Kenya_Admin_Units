@@ -3,6 +3,7 @@ import { writeError, APIError } from "../../utils/helpers.js";
 import * as countyService from "./counties.services.js";
 import * as helper from "../../utils/helpers.js";
 import * as validator from "./helpers.js";
+import * as raiseError from "../../utils/errorHandlers.js";
 
 //get all counties
 
@@ -13,7 +14,7 @@ export async function getAllCounties(req, res, next) {
 
     const requiredParams = ["countryName"];
 
-    validator.validateQueryParameters(req, requiredParams);
+    raiseError.missingQueryParameters(req, requiredParams);
 
     const nameInput = req.query["countryName"];
     //clean the name input
@@ -51,7 +52,7 @@ export async function getCountyByCountyCode(req, res, next) {
 
     const requiredParams = ["countryName", "countyCode"];
 
-    validator.validateQueryParameters(req, requiredParams);
+    raiseError.missingQueryParameters(req, requiredParams);
 
 
     //get county code and sanitize it
@@ -87,7 +88,8 @@ export async function getCountyByCountyCode(req, res, next) {
 export async function getCountyByName(req, res, next) {
 
     const requiredParams = ["countryName", "countyName"];
-    validator.validateQueryParameters(req, requiredParams);
+
+    raiseError.missingQueryParameters(req, requiredParams);
 
     // get county name and sanitize it
     const countyNameInput = req.query["countyName"];

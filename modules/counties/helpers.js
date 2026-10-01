@@ -1,15 +1,5 @@
 import * as helper from "../../utils/helpers.js";
 
-export function validateQueryParameters(req, requiredParams) {
-    const missingParams = requiredParams.filter(param => !req.query[param]);
-    if (missingParams.length > 0) {
-        throw new helper.APIError(`Missing required parameters: ${missingParams.join(", ")}`, {
-            success: false,
-            status: 400,
-            code: "MISSING_REQUIRED_PARAMETERS",
-        });
-    }
-}
 
 export function validateCountyCode(countyCodeInput) {
     const countyCode = parseInt(helper.sanitizeNumberInput(countyCodeInput))
