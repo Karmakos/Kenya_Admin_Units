@@ -27,7 +27,7 @@ export async function getCountryByCallCode(req, res, next) {
     raiseError.missingQueryParameters(req, requiredParams)
 
     //get country call code, sanitize, and validate it
-    const callCodeInput = req.query["code"];
+    const callCodeInput = req.query["countryCallCode"];
     const countryCallCode = validator.validateCountryCallCode(callCodeInput)
 
     //pass to backend service
