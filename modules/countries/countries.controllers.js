@@ -1,7 +1,7 @@
 // Controls the HTTP responses
-import { writeError, APIError } from "../../utils/helpers.js";
 import * as countryService from "./countries.services.js";
-import * as helper from "../../utils/helpers.js";
+import * as validator from "./helper.js";
+import * as raiseError from "../../utils/errorHandlers.js";
 
 
 
@@ -21,25 +21,17 @@ export async function getAllCountries(req, res, next) {
 
 export async function getCountryByCallCode(req, res, next) {
 
+    const requiredParams = ["countryCallCode"];
+
+    // Check for missing query parameters
+    raiseError.missingQueryParameters(req, requiredParams)
+
+    //get country call code, sanitize, and validate it
     const callCodeInput = req.query["code"];
-    //clean the user input
-    const countryCallCode = parseInt(helper.sanitizeNumberInput(callCodeInput))
+    const countryCallCode = validator.validateCountryCallCode(callCodeInput)
 
-    console.log(countryCallCode)
-
-    if (!countryCallCode) {
-        const message = "The country call code you provided is invalid. Please enter a valid numeric code."
-
-        throw new APIError(message, {
-            success: false,
-            status: 400,
-            code: "INVALID_QUERY_PARAMETER"
-        })
-    }
-
+    //pass to backend service
     const response = await countryService.getCountryByCallCode(countryCallCode)
-
-    console.log(response)
 
     res
         .status(response.status)
@@ -49,33 +41,16 @@ export async function getCountryByCallCode(req, res, next) {
 
 export async function getCountryByName(req, res, next) {
 
-    const nameInput = req.query["countryName"];
+    const requiredParams = ["countryName"];
 
-    if (!nameInput) {
-        const message = "The country name you provided is invalid. Please enter a valid country name."
+    // Check for missing query parameters
+    raiseError.missingQueryParameters(req, requiredParams)
 
-        throw new APIError(message, {
-            success: false,
-            status: 400,
-            code: "INVALID_QUERY_PARAMETER"
-        })
-    }
+    //get country name, sanitize, and validate it
+    const countryNameInput = req.query["countryName"];
+    const countryName = validator.validateCountryName(countryNameInput)
 
-
-    //clean the name input
-    const countryName = helper.sanitizeStringInput(nameInput)
-
-    if (!countryName) {
-        const message = "The country name you provided is invalid. Please enter a valid alphabetical name."
-
-        throw new APIError(message, {
-            success: false,
-            status: 400,
-            code: "INVALID_QUERY_PARAMETER"
-        })
-    }
     // send service to backend
-
     const response = await countryService.getCountryByName(countryName)
 
     res
@@ -87,20 +62,16 @@ export async function getCountryByName(req, res, next) {
 
 export async function getCountryByAbbr(req, res, next) {
 
+    const requiredParams = ["countryAbbreviation"];
+
+    // Check for missing query parameters
+    raiseError.missingQueryParameters(req, requiredParams)
+
+    //get country abbreviation, sanitize, and validate it
     const countryAbbr = req.query["countryAbbreviation"];
-    //Clean the user input
-    const abbreviation = helper.sanitizeStringInput(countryAbbr).toUpperCase()
+    const abbreviation = validator.validateCountryAbbreviation(countryAbbr)
 
-    if (!abbreviation || !(abbreviation.length > 1) || !(4 > abbreviation.length)) {
-        const message = `The country abbreviation you provided is invalid. Please enter a valid country abbreviation that follow the ISO 3166-1 standard, which uses two-letter (Alpha-2) and three-letter (Alpha-3) codes.`
-
-        throw new APIError(message, {
-            success: false,
-            status: 400,
-            code: "INVALID_QUERY_PARAMETER"
-        })
-    }
-
+    // send service to backend
     const response = await countryService.getCountryByAbbrv(abbreviation)
 
     res

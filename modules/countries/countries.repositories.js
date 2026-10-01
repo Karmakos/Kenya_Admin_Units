@@ -22,7 +22,7 @@ export async function findCountryId(countryName) {
         [`%${countryName}%`]
     );
 
-    return result.rows[0] ?? null;
+    return result.rows ?? null;
 }
 
 export async function countAll() {
@@ -40,7 +40,7 @@ export async function findByCallCode(code) {
         [code]
     );
 
-    return result.rows[0] ?? null;
+    return result.rows ?? null;
 
 }
 
@@ -65,6 +65,6 @@ export async function findByAbbr(abbr) {
         [`%${abbr}%`]
     );
 
-    return result.rows[0] ?? null;
+    return result.rows ?? null;
 
 }

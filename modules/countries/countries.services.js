@@ -1,6 +1,6 @@
 // Handles the countries processing logic.
 import * as countryRepository from "./countries.repositories.js";
-import { APIError } from "../../utils/helpers.js";
+import * as raiseError from "../../utils/errorHandlers.js";
 
 export async function getAllCountries(page = 1, limit = 25) {
 
@@ -9,14 +9,10 @@ export async function getAllCountries(page = 1, limit = 25) {
     const countries = await countryRepository.findAll(offset, limit)
     const totalCountries = await countryRepository.countAll()
 
-    if (!countries) {
+    if (!countries?.length) {
         console.warn("No countries found")
 
-        throw new APIError("The country was not found.", {
-            success: false,
-            status: 404,
-            code: "COUNTRY_NOT_FOUND",
-        })
+        raiseError.resourceNotFoundError("Country")
 
     }
 
@@ -42,21 +38,16 @@ export async function getCountryByCallCode(code) {
 
     const country = await countryRepository.findByCallCode(code)
 
-    if (!country) {
+    if (!country?.length) {
         console.warn("No countries found")
 
-        throw new APIError("The country was not found.", {
-            success: false,
-            status: 404,
-            code: "COUNTRY_NOT_FOUND",
-        })
-
+        raiseError.resourceNotFoundError("Country")
     }
 
     return ({
         success: true,
         status: 200,
-        country,
+        data: country,
     })
 }
 
@@ -65,21 +56,16 @@ export async function getCountryByName(name) {
 
     const country = await countryRepository.findByName(name)
 
-    if (!country) {
+    if (!country?.length) {
         console.warn("No countries found")
 
-        throw new APIError("The country was not found.", {
-            success: false,
-            status: 404,
-            code: "COUNTRY_NOT_FOUND",
-        })
-
+        raiseError.resourceNotFoundError("Country")
     }
 
     return ({
         success: true,
         status: 200,
-        country,
+        data: country,
     })
 }
 
@@ -88,21 +74,16 @@ export async function getCountryByAbbrv(abbrv) {
 
     const country = await countryRepository.findByAbbr(abbrv)
 
-    if (!country) {
+    if (!country?.length) {
         console.warn("No countries found")
-
-        throw new APIError("The country was not found.", {
-            success: false,
-            status: 404,
-            code: "COUNTRY_NOT_FOUND",
-        })
+        raiseError.resourceNotFoundError("Country")
 
     }
 
     return ({
         success: true,
         status: 200,
-        country,
+        data: country,
     })
 }
 
