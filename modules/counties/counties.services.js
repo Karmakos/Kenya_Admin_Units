@@ -27,7 +27,7 @@ export async function getAllCounties(payload) {
         pagination: {
             currentPage: page,
             limit: limit,
-            totalItems: totalCounties?.count,
+            totalItems: totalCounties,
             totalPages: totalPages,
             hasNextPage: page < totalPages,
             hasPrevPage: page > 1,

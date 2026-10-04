@@ -27,7 +27,7 @@ export function sanitizeStringInput(input) {
     const sanitizedString = input
         .toString()
         .trim()
-        .replace(/[^a-z||A-Z]/g, '')
+        .replace(/[^a-z||A-Z || ']/g, '')
         .replace(/\s/g, '')
 
 

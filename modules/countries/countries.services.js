@@ -25,7 +25,7 @@ export async function getAllCountries(page = 1, limit = 25) {
         pagination: {
             currentPage: page,
             limit: limit,
-            totalItems: totalCountries?.count,
+            totalItems: totalCountries,
             totalPages: totalPages,
             hasNextPage: page < totalPages,
             hasPrevPage: page > 1,

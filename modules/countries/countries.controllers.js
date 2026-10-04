@@ -1,6 +1,6 @@
 // Controls the HTTP responses
 import * as countryService from "./countries.services.js";
-import * as validator from "./helper.js";
+import * as validator from "./helpers.js";
 import * as raiseError from "../../utils/errorHandlers.js";
 
 

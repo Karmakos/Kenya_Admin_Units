@@ -1,13 +1,15 @@
 import { Router } from "express";
+import * as subCountryController from "../modules/subCounties/subCounties.controllers.js";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.send("Found all sub counties here")
-})
+router.get("/all", subCountryController.getAllSubCounties);
 
-router.get("/:id", (req, res) => {
-    const id = req.params.id
-    res.send(`sub county ${id} finally found`)
-})
+router.get("/by-county", subCountryController.getAllCountySubCounties);
+
+router.get("/sub-county-code", subCountryController.getSubCountyByCode);
+
+router.get("/sub-county-name", subCountryController.getSubCountyByName);
+
+
 export { router }

@@ -22,7 +22,7 @@ export async function countAll() {
     const result = await reader.query(`
         SELECT COUNT (*) FROM county `);
 
-    return result.count ?? 0;
+    return result.rows[0].count ?? 0;
 }
 
 export async function findByCountyCode(countryName, countyCode) {

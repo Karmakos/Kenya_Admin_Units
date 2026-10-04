@@ -29,7 +29,7 @@ export async function countAll() {
     const result = await reader.query(`
         SELECT COUNT (*) FROM country `);
 
-    return result.count ?? 0;
+    return result.rows[0].count ?? 0;
 }
 
 export async function findByCallCode(code) {
