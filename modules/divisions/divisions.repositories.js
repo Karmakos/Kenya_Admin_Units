@@ -25,7 +25,7 @@ export async function findAllDivisions(country_name, offset, limit) {
     return result.rows ?? null;
 }
 
-export async function findAllSubCountyDivision(sub_county_name, country_name, offset, limit) {
+export async function findAllSubCountyDivisions(sub_county_name, country_name, offset, limit) {
 
     const result = await reader.query(`
         SELECT county_name, sub_county_code, sub_county_name, division_name
@@ -59,8 +59,10 @@ export async function countAllCountryDivisions() {
 
 export async function countAllSubCountyDivisions(sub_county_name) {
     const result = await reader.query(`
-        SELECT COUNT (*) FROM division WHERE sub_county_name
-         ILIKE $1`,
+        SELECT COUNT (*) FROM sub_county
+        INNER JOIN division as i
+        ON i.sub_county_id=sub_county.id
+        WHERE sub_county_name ILIKE $1`,
         [`%${sub_county_name}%`]
 
     );
@@ -79,7 +81,7 @@ export async function findByName(countryName, divisionName) {
         ON m.sub_county_id = i.id
 
         LEFT JOIN county as j
-        ON m.county_id = j.id
+        ON i.county_id = j.id
 
         LEFT JOIN country as k
         ON j.country_id = k.id

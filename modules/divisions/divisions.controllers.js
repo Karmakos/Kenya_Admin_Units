@@ -5,7 +5,7 @@ import * as subCountyValidator from "../subCounties/helpers.js";
 import * as divisionValidator from "./helpers.js";
 import * as raiseError from "../../utils/errorHandlers.js";
 
-//get all sub-counties in the country
+//get all divisions in the country
 
 export async function getAllCountryDivisions(req, res, next) {
 
@@ -37,7 +37,7 @@ export async function getAllCountryDivisions(req, res, next) {
 
 }
 
-//get all sub-counties in the county
+//get all divisions in the county
 
 export async function getAllSubCountyDivisions(req, res, next) {
 
@@ -74,15 +74,15 @@ export async function getAllSubCountyDivisions(req, res, next) {
 
 }
 
-//get sub-county by name
+//get division by name
 export async function getDivisionByName(req, res, next) {
 
     const requiredParams = ["countryName", "divisionName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
-    // get sub-county name and sanitize it
-    const subCountyNameInput = req.query["divisionName"];
-    const subCountyName = divisionValidator.validateDivisionName(subCountyNameInput)
+    // get division name and sanitize it
+    const divisionNameInput = req.query["divisionName"];
+    const divisionName = divisionValidator.validateDivisionName(divisionNameInput)
 
 
     //get country name and sanitize it
@@ -90,7 +90,7 @@ export async function getDivisionByName(req, res, next) {
     const countryName = countryValidator.validateCountryName(countryNameInput)
 
     // send service to backend
-    const response = await divisionService.getSubCountyByName(countryName, subCountyName)
+    const response = await divisionService.getDivisionByName(countryName, divisionName)
 
     res
         .status(response.status)
