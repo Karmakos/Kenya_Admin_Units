@@ -31,7 +31,4 @@ export async function getMatchingNames(req, res, next) {
 
     res.status(200).json(searchResults);
 
-
-
-
 }
