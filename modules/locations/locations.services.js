@@ -5,11 +5,11 @@ import * as raiseError from "../../utils/errorHandlers.js";
 
 export async function getAllCountryLocations(payload) {
 
-    const { country, page, limit } = payload
+    const { page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const locations = await locationRepository.findAllLocations(country, offset, limit)
+    const locations = await locationRepository.findAllLocations(offset, limit)
     const totalLocations = await locationRepository.countAllCountryLocations()
 
     if (!locations?.length) {
@@ -37,11 +37,11 @@ export async function getAllCountryLocations(payload) {
 
 export async function getAllSubCountyLocations(payload) {
 
-    const { sub_county_name, country, page, limit } = payload
+    const { sub_county_name, page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const locations = await locationRepository.findAllSubCountyLocations(sub_county_name, country, offset, limit)
+    const locations = await locationRepository.findAllSubCountyLocations(sub_county_name, offset, limit)
     const totalLocations = await locationRepository.countAllSubCountyLocations(sub_county_name)
 
     if (!locations?.length) {
@@ -66,9 +66,9 @@ export async function getAllSubCountyLocations(payload) {
     });
 }
 
-export async function getLocationByName(countryName, locationName) {
+export async function getLocationByName(locationName) {
 
-    const location = await locationRepository.findByName(countryName, locationName)
+    const location = await locationRepository.findByName(locationName)
 
     if (!location?.length) {
         console.warn("No locations found")

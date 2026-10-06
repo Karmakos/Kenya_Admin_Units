@@ -1,7 +1,7 @@
 // Handles querying PostgreSQL.
 import { reader } from "../../database/pool.js";
 
-export async function findAllDivisions(country_name, offset, limit) {
+export async function findAllDivisions(offset, limit) {
 
     const result = await reader.query(`
         SELECT country_name,county_name, sub_county_name, division_name 
@@ -16,16 +16,15 @@ export async function findAllDivisions(country_name, offset, limit) {
         INNER JOIN country as k
         ON j.country_id=k.id
 
-        WHERE k.country_name ILIKE $1
         ORDER BY sub_county_code 
-        LIMIT $2 OFFSET $3`,
-        [`%${country_name}%`, limit, offset]
+        LIMIT $1 OFFSET $2`,
+        [limit, offset]
     );
 
     return result.rows ?? null;
 }
 
-export async function findAllSubCountyDivisions(sub_county_name, country_name, offset, limit) {
+export async function findAllSubCountyDivisions(sub_county_name, offset, limit) {
 
     const result = await reader.query(`
         SELECT county_name, sub_county_code, sub_county_name, division_name
@@ -40,10 +39,10 @@ export async function findAllSubCountyDivisions(sub_county_name, country_name, o
         INNER JOIN country as k
         ON j.country_id=k.id
         
-        WHERE i.sub_county_name ILIKE $1 AND k.country_name ILIKE $2
+        WHERE i.sub_county_name ILIKE $1
         ORDER BY sub_county_code 
-        LIMIT $3 OFFSET $4`,
-        [`%${sub_county_name}%`, `%${country_name}%`, limit, offset]
+        LIMIT $2 OFFSET $3`,
+        [`%${sub_county_name}%`, limit, offset]
     );
 
     return result.rows ?? null;
@@ -71,7 +70,7 @@ export async function countAllSubCountyDivisions(sub_county_name) {
 }
 
 
-export async function findByName(countryName, divisionName) {
+export async function findByName(divisionName) {
 
     const result = await reader.query(`
         SELECT country_name, county_name, sub_county_name, division_name
@@ -85,9 +84,9 @@ export async function findByName(countryName, divisionName) {
 
         LEFT JOIN country as k
         ON j.country_id = k.id
-        WHERE k.country_name ILIKE $1 AND m.division_name ILIKE $2 
+        WHERE  m.division_name ILIKE $1 
         `,
-        [`%${countryName}%`, `%${divisionName}%`]
+        [`%${divisionName}%`]
     );
 
     return result.rows ?? null;

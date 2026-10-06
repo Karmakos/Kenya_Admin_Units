@@ -1,7 +1,7 @@
 // Handles querying PostgreSQL.
 import { reader } from "../../database/pool.js";
 
-export async function findAll(country_name, offset, limit) {
+export async function findAll(offset, limit) {
 
     const result = await reader.query(`
         SELECT country_name, county_code, county_name 
@@ -9,10 +9,9 @@ export async function findAll(country_name, offset, limit) {
         INNER JOIN
         country as j
         ON m.country_id=j.id
-        WHERE j.country_name ILIKE $1
         ORDER BY county_code 
-        LIMIT $2 OFFSET $3`,
-        [`%${country_name}%`, limit, offset]
+        LIMIT $1 OFFSET $2`,
+        [limit, offset]
     );
 
     return result.rows ?? null;
@@ -25,32 +24,32 @@ export async function countAll() {
     return result.rows[0].count ?? 0;
 }
 
-export async function findByCountyCode(countryName, countyCode) {
+export async function findByCountyCode(countyCode) {
     const result = await reader.query(`
         SELECT county_name, county_code, country_name 
         FROM county as m
         LEFT JOIN
         country as j
         ON m.country_id = j.id 
-        WHERE county_code = $1 AND country_name ILIKE $2 
+        WHERE county_code = $1 
         LIMIT 1`,
-        [countyCode, `%${countryName}%`]
+        [countyCode]
     );
 
     return result.rows ?? null;
 
 }
 
-export async function findByName(countryName, countyName) {
+export async function findByName(countyName) {
 
     const result = await reader.query(`
         SELECT county_name, county_code, country_name
         FROM county as m
         LEFT JOIN country as j
         ON m.country_id = j.id
-        WHERE j.country_name ILIKE $1 AND m.county_name ILIKE $2 
-        LIMIT 1`,
-        [`%${countryName}%`, `%${countyName}%`]
+        WHERE m.county_name ILIKE $1 
+        `,
+        [`%${countyName}%`]
     );
 
     return result.rows ?? null;

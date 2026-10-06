@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", countiesController.getAllCounties)
 
-router.get("/county-code", countiesController.getCountyByCountyCode)
+router.get("/county-code", countiesController.getCountyByCode)
 
 router.get("/county-name", countiesController.getCountyByName)
 

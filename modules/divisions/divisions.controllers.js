@@ -13,19 +13,9 @@ export async function getAllCountryDivisions(req, res, next) {
     let limit = Math.max(parseInt(req.query?.limit, 10) || 100);
     let page = Math.max(parseInt(req.query?.page, 10) || 1);
 
-    // check if any paremeters are missing
-    const requiredParams = ["countryName"];
-    raiseError.missingQueryParameters(req, requiredParams);
-
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
-
     const payload = {
         limit: limit,
         page: page,
-        country: countryName
     }
 
     //pass to the controllers
@@ -46,22 +36,17 @@ export async function getAllSubCountyDivisions(req, res, next) {
     let page = Math.max(parseInt(req.query?.page, 10) || 1);
 
     // check if any paremeters are missing
-    const requiredParams = ["countryName", "subCountyName"];
+    const requiredParams = ["subCountyName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
     //get sub-county name and sanitize it
     const subCountyNameInput = req.query["subCountyName"];
     const subCountyName = subCountyValidator.validateSubCountyName(subCountyNameInput)
 
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
 
     const payload = {
         limit: limit,
         page: page,
-        country: countryName,
         sub_county_name: subCountyName
     }
 
@@ -77,20 +62,15 @@ export async function getAllSubCountyDivisions(req, res, next) {
 //get division by name
 export async function getDivisionByName(req, res, next) {
 
-    const requiredParams = ["countryName", "divisionName"];
+    const requiredParams = ["divisionName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
     // get division name and sanitize it
     const divisionNameInput = req.query["divisionName"];
     const divisionName = divisionValidator.validateDivisionName(divisionNameInput)
 
-
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
     // send service to backend
-    const response = await divisionService.getDivisionByName(countryName, divisionName)
+    const response = await divisionService.getDivisionByName(divisionName)
 
     res
         .status(response.status)

@@ -6,11 +6,11 @@ import * as raiseError from "../../utils/errorHandlers.js";
 
 export async function getAllCounties(payload) {
 
-    const { country, page, limit } = payload
+    const { page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const counties = await countyRepository.findAll(country, offset, limit)
+    const counties = await countyRepository.findAll(offset, limit)
     const totalCounties = await countyRepository.countAll()
 
     if (!counties?.length) {
@@ -35,9 +35,9 @@ export async function getAllCounties(payload) {
     });
 }
 
-export async function getCountyByCode(countryName, countyCode) {
+export async function getCountyByCode(countyCode) {
 
-    const county = await countyRepository.findByCountyCode(countryName, countyCode)
+    const county = await countyRepository.findByCountyCode(countyCode)
 
     console.log("county", county)
 
@@ -54,9 +54,9 @@ export async function getCountyByCode(countryName, countyCode) {
 }
 
 
-export async function getCountyByName(countryName, countyName) {
+export async function getCountyByName(countyName) {
 
-    const county = await countyRepository.findByName(countryName, countyName)
+    const county = await countyRepository.findByName(countyName)
 
     if (!county?.length) {
         console.warn("No counties found")

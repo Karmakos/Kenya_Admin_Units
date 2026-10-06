@@ -6,11 +6,11 @@ import * as raiseError from "../../utils/errorHandlers.js";
 
 export async function getAllSubCounties(payload) {
 
-    const { country, page, limit } = payload
+    const { page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const subCounties = await countyRepository.findAllSubCounties(country, offset, limit)
+    const subCounties = await countyRepository.findAllSubCounties(offset, limit)
     const totalSubCounties = await countyRepository.countAll()
 
     if (!subCounties?.length) {
@@ -38,12 +38,12 @@ export async function getAllSubCounties(payload) {
 
 export async function getAllCountySubCounties(payload) {
 
-    const { country, county, page, limit } = payload
+    const { county, page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const subCounties = await countyRepository.findAllCountySubCounties(county, country, offset, limit)
-    const totalSubCounties = await countyRepository.countAll()
+    const subCounties = await countyRepository.findAllCountySubCounties(county, offset, limit)
+    const totalSubCounties = await countyRepository.countCountyAll(county)
 
     if (!subCounties?.length) {
         console.warn("No sub-counties found")
@@ -67,9 +67,9 @@ export async function getAllCountySubCounties(payload) {
     });
 }
 
-export async function getSubCountyByCode(countryName, subCountyCode) {
+export async function getSubCountyByCode(subCountyCode) {
 
-    const subCounty = await countyRepository.findBySubCountyCode(countryName, subCountyCode)
+    const subCounty = await countyRepository.findBySubCountyCode(subCountyCode)
 
     if (!subCounty?.length) {
         console.warn("No sub-counties found")
@@ -84,9 +84,9 @@ export async function getSubCountyByCode(countryName, subCountyCode) {
 }
 
 
-export async function getSubCountyByName(countryName, subCountyName) {
+export async function getSubCountyByName(subCountyName) {
 
-    const subCounty = await countyRepository.findByName(countryName, subCountyName)
+    const subCounty = await countyRepository.findByName(subCountyName)
 
     if (!subCounty?.length) {
         console.warn("No sub-counties found")

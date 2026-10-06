@@ -5,11 +5,11 @@ import * as raiseError from "../../utils/errorHandlers.js";
 
 export async function getAllCountrySubLocations(payload) {
 
-    const { country, page, limit } = payload
+    const { page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const subLocations = await subLocationRepository.findAllSubLocations(country, offset, limit)
+    const subLocations = await subLocationRepository.findAllSubLocations(offset, limit)
     const totalSubLocations = await subLocationRepository.countAllCountrySubLocations()
 
     if (!subLocations?.length) {
@@ -37,11 +37,11 @@ export async function getAllCountrySubLocations(payload) {
 
 export async function getAllSubCountySubLocations(payload) {
 
-    const { sub_county_name, country, page, limit } = payload
+    const { sub_county_name, page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const subLocations = await subLocationRepository.findAllSubCountySubLocations(sub_county_name, country, offset, limit)
+    const subLocations = await subLocationRepository.findAllSubCountySubLocations(sub_county_name, offset, limit)
     const totalSubLocations = await subLocationRepository.countAllSubCountySubLocations(sub_county_name)
 
     if (!subLocations?.length) {
@@ -66,9 +66,9 @@ export async function getAllSubCountySubLocations(payload) {
     });
 }
 
-export async function getSubLocationByName(countryName, subLocationName) {
+export async function getSubLocationByName(subLocationName) {
 
-    const subLocation = await subLocationRepository.findByName(countryName, subLocationName)
+    const subLocation = await subLocationRepository.findByName(subLocationName)
 
     if (!subLocation?.length) {
         console.warn("No sub-locations found")

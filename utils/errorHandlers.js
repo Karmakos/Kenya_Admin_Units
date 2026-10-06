@@ -12,7 +12,6 @@ export function missingQueryParameters(req, requiredParams) {
     }
 }
 
-
 // Function to handle resource not found errors
 export function resourceNotFoundError(resourceName) {
     const message = `The ${resourceName} you requested was not found. Please check the resource name and try again.`;
@@ -23,3 +22,12 @@ export function resourceNotFoundError(resourceName) {
     });
 }
 
+// Function to handle resource not found errors
+export function badRequestError(requestedResource) {
+    const message = `The ${requestedResource} you requested is invalid. Please check the scope and try again.`;
+    throw new helper.APIError(message, {
+        success: false,
+        status: 400,
+        code: `${requestedResource.toUpperCase()}_BAD_REQUEST`
+    });
+}

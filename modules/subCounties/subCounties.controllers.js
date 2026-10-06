@@ -13,19 +13,9 @@ export async function getAllSubCounties(req, res, next) {
     let limit = Math.max(parseInt(req.query?.limit, 10) || 25);
     let page = Math.max(parseInt(req.query?.page, 10) || 1);
 
-    // check if any paremeters are missing
-    const requiredParams = ["countryName"];
-    raiseError.missingQueryParameters(req, requiredParams);
-
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
-
     const payload = {
         limit: limit,
         page: page,
-        country: countryName
     }
 
     //pass to the controllers
@@ -46,22 +36,17 @@ export async function getAllCountySubCounties(req, res, next) {
     let page = Math.max(parseInt(req.query?.page, 10) || 1);
 
     // check if any paremeters are missing
-    const requiredParams = ["countryName", "countyName"];
+    const requiredParams = ["countyName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
     //get county name and sanitize it
     const countyNameInput = req.query["countyName"];
     const countyName = countyValidator.validateCountyName(countyNameInput)
 
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
 
     const payload = {
         limit: limit,
         page: page,
-        country: countryName,
         county: countyName
     }
 
@@ -79,7 +64,7 @@ export async function getAllCountySubCounties(req, res, next) {
 export async function getSubCountyByCode(req, res, next) {
 
     // check if any paremeters are missing
-    const requiredParams = ["countryName", "subCountyCode"];
+    const requiredParams = ["subCountyCode"];
     raiseError.missingQueryParameters(req, requiredParams);
 
 
@@ -87,13 +72,8 @@ export async function getSubCountyByCode(req, res, next) {
     const subCountyCodeInput = req.query["subCountyCode"];
     const subCountyCode = subCountyValidator.validateSubCountyCode(subCountyCodeInput);
 
-
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
     // send service to backend
-    const response = await subCountyService.getSubCountyByCode(countryName, subCountyCode)
+    const response = await subCountyService.getSubCountyByCode(subCountyCode)
 
     res
         .status(response.status)
@@ -105,7 +85,7 @@ export async function getSubCountyByCode(req, res, next) {
 //get sub-county by name
 export async function getSubCountyByName(req, res, next) {
 
-    const requiredParams = ["countryName", "subCountyName"];
+    const requiredParams = ["subCountyName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
     // get sub-county name and sanitize it
@@ -113,12 +93,8 @@ export async function getSubCountyByName(req, res, next) {
     const subCountyName = subCountyValidator.validateSubCountyName(subCountyNameInput)
 
 
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
     // send service to backend
-    const response = await subCountyService.getSubCountyByName(countryName, subCountyName)
+    const response = await subCountyService.getSubCountyByName(subCountyName)
 
     res
         .status(response.status)

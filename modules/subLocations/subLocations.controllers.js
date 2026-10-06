@@ -13,19 +13,9 @@ export async function getAllCountrySubLocations(req, res, next) {
     let limit = Math.max(parseInt(req.query?.limit, 10) || 100);
     let page = Math.max(parseInt(req.query?.page, 10) || 1);
 
-    // check if any paremeters are missing
-    const requiredParams = ["countryName"];
-    raiseError.missingQueryParameters(req, requiredParams);
-
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
-
     const payload = {
         limit: limit,
         page: page,
-        country: countryName
     }
 
     //pass to the controllers
@@ -46,22 +36,16 @@ export async function getAllSubCountySubLocations(req, res, next) {
     let page = Math.max(parseInt(req.query?.page, 10) || 1);
 
     // check if any paremeters are missing
-    const requiredParams = ["countryName", "subCountyName"];
+    const requiredParams = ["subCountyName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
     //get sub-county name and sanitize it
     const subCountyNameInput = req.query["subCountyName"];
     const subCountyName = subCountyValidator.validateSubCountyName(subCountyNameInput)
 
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
-
     const payload = {
         limit: limit,
         page: page,
-        country: countryName,
         sub_county_name: subCountyName
     }
 
@@ -77,20 +61,15 @@ export async function getAllSubCountySubLocations(req, res, next) {
 //get sub location by name
 export async function getSubLocationByName(req, res, next) {
 
-    const requiredParams = ["countryName", "subLocationName"];
+    const requiredParams = ["subLocationName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
     // get sub-location name and sanitize it
     const subLocationNameInput = req.query["subLocationName"];
     const subLocationName = subLocationValidator.validateSubLocationName(subLocationNameInput)
 
-
-    //get country name and sanitize it
-    const countryNameInput = req.query["countryName"];
-    const countryName = countryValidator.validateCountryName(countryNameInput)
-
     // send service to backend
-    const response = await subLocationService.getSubLocationByName(countryName, subLocationName)
+    const response = await subLocationService.getSubLocationByName(subLocationName)
 
     res
         .status(response.status)

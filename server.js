@@ -9,7 +9,8 @@ import { router as subCounties } from "./routes/sub-counties.js";
 import { router as divisions } from "./routes/divisions.js";
 import { router as locations } from "./routes/locations.js";
 import { router as subLocation } from "./routes/sub-locations.js";
-import { errorHandler } from "./middleware/errorHandler.js";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
+import { router as search } from "./routes/search.js";
 
 
 
@@ -34,18 +35,16 @@ app.use('/api/v1/sub-counties', subCounties)
 app.use('/api/v1/divisions', divisions)
 app.use('/api/v1/locations', locations)
 app.use('/api/v1/sub-locations', subLocation)
-
+app.use('/api/v1/search', search)
 //Error handling middleware
 app.use(errorHandler);
-
-
 
 app.get("/", (req, res) => {
 
     res.send("Route working perfectly")
 })
 
-
+app.use(notFoundHandler);
 
 app.listen(port, (req, res) => {
     console.log("Listening on port", port)

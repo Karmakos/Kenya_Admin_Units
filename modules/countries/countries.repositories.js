@@ -48,8 +48,7 @@ export async function findByName(name) {
 
     const result = await reader.query(`
         SELECT country_name, country_code, abbreviation FROM country 
-        WHERE country_name ILIKE $1 
-        LIMIT 1`,
+        WHERE country_name ILIKE $1 `,
         [`%${name}%`]
     );
 
@@ -60,8 +59,7 @@ export async function findByName(name) {
 export async function findByAbbr(abbr) {
     const result = await reader.query(`
         SELECT country_name, country_code, abbreviation FROM country 
-        WHERE abbreviation ILIKE $1 
-        LIMIT 1`,
+        WHERE abbreviation ILIKE $1 `,
         [`%${abbr}%`]
     );
 

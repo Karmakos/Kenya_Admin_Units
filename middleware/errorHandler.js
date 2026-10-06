@@ -21,3 +21,14 @@ export function errorHandler(err, req, res, next) {
         message: "An unexpected error occurred."
     });
 }
+
+export function notFoundHandler(req, res, next) {
+
+    res.status(404).json({
+        success: false,
+        status: 404,
+        route: req.originalUrl,
+        code: "NOT_FOUND",
+        message: "The route resource was not found."
+    });
+}

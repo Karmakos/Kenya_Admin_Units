@@ -5,11 +5,11 @@ import * as raiseError from "../../utils/errorHandlers.js";
 
 export async function getAllCountryDivisions(payload) {
 
-    const { country, page, limit } = payload
+    const { page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const divisions = await divisionRepository.findAllDivisions(country, offset, limit)
+    const divisions = await divisionRepository.findAllDivisions(offset, limit)
     const totalDivisions = await divisionRepository.countAllCountryDivisions()
 
     if (!divisions?.length) {
@@ -37,11 +37,11 @@ export async function getAllCountryDivisions(payload) {
 
 export async function getAllSubCountyDivisions(payload) {
 
-    const { sub_county_name, country, page, limit } = payload
+    const { sub_county_name, page, limit } = payload
 
     const offset = (page - 1) * limit;
 
-    const divisions = await divisionRepository.findAllSubCountyDivisions(sub_county_name, country, offset, limit)
+    const divisions = await divisionRepository.findAllSubCountyDivisions(sub_county_name, offset, limit)
     const totalDivisions = await divisionRepository.countAllSubCountyDivisions(sub_county_name)
 
     if (!divisions?.length) {
@@ -66,9 +66,9 @@ export async function getAllSubCountyDivisions(payload) {
     });
 }
 
-export async function getDivisionByName(countryName, divisionName) {
+export async function getDivisionByName(divisionName) {
 
-    const division = await divisionRepository.findByName(countryName, divisionName)
+    const division = await divisionRepository.findByName(divisionName)
 
     if (!division?.length) {
         console.warn("No divisions found")
