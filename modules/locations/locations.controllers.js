@@ -1,13 +1,13 @@
 // Controls the HTTP responses
-import * as divisionService from "./divisions.services.js";
+import * as locationService from "./locations.services.js";
 import * as countryValidator from "../countries/helpers.js";
 import * as subCountyValidator from "../subCounties/helpers.js";
-import * as divisionValidator from "./helpers.js";
+import * as locationValidator from "./helpers.js";
 import * as raiseError from "../../utils/errorHandlers.js";
 
-//get all divisions in the country
+//get all locations in the country
 
-export async function getAllCountryDivisions(req, res, next) {
+export async function getAllCountryLocations(req, res, next) {
 
     //get limit and page from query parameters
     let limit = Math.max(parseInt(req.query?.limit, 10) || 100);
@@ -29,7 +29,7 @@ export async function getAllCountryDivisions(req, res, next) {
     }
 
     //pass to the controllers
-    const response = await divisionService.getAllCountryDivisions(payload)
+    const response = await locationService.getAllCountryLocations(payload)
 
     res
         .status(response.status)
@@ -37,9 +37,9 @@ export async function getAllCountryDivisions(req, res, next) {
 
 }
 
-//get all divisions in the sub-county
+//get all locations in the sub-county
 
-export async function getAllSubCountyDivisions(req, res, next) {
+export async function getAllSubCountyLocations(req, res, next) {
 
     //get limit and page from query parameters
     let limit = Math.max(parseInt(req.query?.limit, 10) || 25);
@@ -66,7 +66,7 @@ export async function getAllSubCountyDivisions(req, res, next) {
     }
 
     //pass to the controllers
-    const response = await divisionService.getAllSubCountyDivisions(payload)
+    const response = await locationService.getAllSubCountyLocations(payload)
 
     res
         .status(response.status)
@@ -74,15 +74,15 @@ export async function getAllSubCountyDivisions(req, res, next) {
 
 }
 
-//get division by name
-export async function getDivisionByName(req, res, next) {
+//get location by name
+export async function getLocationByName(req, res, next) {
 
-    const requiredParams = ["countryName", "divisionName"];
+    const requiredParams = ["countryName", "locationName"];
     raiseError.missingQueryParameters(req, requiredParams);
 
-    // get division name and sanitize it
-    const divisionNameInput = req.query["divisionName"];
-    const divisionName = divisionValidator.validateDivisionName(divisionNameInput)
+    // get location name and sanitize it
+    const locationNameInput = req.query["locationName"];
+    const locationName = locationValidator.validateLocationName(locationNameInput)
 
 
     //get country name and sanitize it
@@ -90,7 +90,7 @@ export async function getDivisionByName(req, res, next) {
     const countryName = countryValidator.validateCountryName(countryNameInput)
 
     // send service to backend
-    const response = await divisionService.getDivisionByName(countryName, divisionName)
+    const response = await locationService.getLocationByName(countryName, locationName)
 
     res
         .status(response.status)

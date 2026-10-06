@@ -33,7 +33,7 @@ app.use('/api/v1/counties', counties);
 app.use('/api/v1/sub-counties', subCounties)
 app.use('/api/v1/divisions', divisions)
 app.use('/api/v1/locations', locations)
-app.use('/api/v1/sub-location', subLocation)
+app.use('/api/v1/sub-locations', subLocation)
 
 //Error handling middleware
 app.use(errorHandler);

@@ -1,6 +1,5 @@
-// Handles the countries processing logic.
+// Handles the divisions processing logic.
 import * as divisionRepository from "./divisions.repositories.js";
-import * as validator from "./helpers.js";
 import * as raiseError from "../../utils/errorHandlers.js";
 
 
