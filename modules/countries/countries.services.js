@@ -52,7 +52,6 @@ export async function getCountryByCallCode(code) {
 
 
 export async function getCountryByName(name) {
-    console.log("Searching for country by name:", name)
 
     const country = await countryRepository.findByName(name)
 

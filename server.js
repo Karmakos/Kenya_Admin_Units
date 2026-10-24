@@ -11,6 +11,8 @@ import { router as locations } from "./routes/locations.js";
 import { router as subLocation } from "./routes/sub-locations.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 import { router as search } from "./routes/search.js";
+import { rateLimiter } from "./middleware/rateLimiter.js";
+
 
 
 
@@ -27,6 +29,9 @@ const __dirname = path.dirname(filePath)
 //load the public folder to the middleware
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
+
+//load rate limiter middleware
+app.use(rateLimiter);
 
 //add country routes
 app.use('/api/v1/countries', countries);

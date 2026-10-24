@@ -31,3 +31,13 @@ export function badRequestError(requestedResource) {
         code: `${requestedResource.toUpperCase()}_BAD_REQUEST`
     });
 }
+
+
+export function tooManyRequestsError() {
+    const message = `You have exceeded the maximum number of requests allowed. Please try again later.`;
+    throw new helper.APIError(message, {
+        success: false,
+        status: 429,
+        code: `TOO_MANY_REQUESTS`
+    });
+}

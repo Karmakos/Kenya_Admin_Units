@@ -9,7 +9,11 @@ const {
     READER_USERNAME,
     READER_PASSWORD,
     WRITER_USERNAME,
-    WRITER_PASSWORD } = process.env;
+    WRITER_PASSWORD,
+    REDIS_HOST,
+    REDIS_PORT,
+    REDIS_PASSWORD
+} = process.env;
 
 const config = {
     api: {
@@ -26,6 +30,11 @@ const config = {
             username: WRITER_USERNAME,
             password: WRITER_PASSWORD
         }
+    },
+    redis: {
+        host: REDIS_HOST,
+        port: REDIS_PORT,
+        password: REDIS_PASSWORD
     }
 }
 
